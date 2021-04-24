@@ -22,7 +22,7 @@ function startQuiz() {
   startScreenEl.style.display = "none";
   // un-hide questions section
   var questionsEl = document.querySelector("#questions");
-  questionsEl.style.display = "block";
+  questionsEl.classList.remove("hide");
   // start timer
   timerId = setInterval(clockTick, 1000)
 
@@ -30,22 +30,29 @@ function startQuiz() {
   // show starting time
   timerEl.textContent = time;
 
+
   getQuestion();
 }
 
 function getQuestion() {
   // get current question object from array
-
+  var currentQuestion = questions[currentQuestionIndex]
+  var questionTitle = questionsEl.getElementsByTagName("h2")
 
   // update title with current question
-
+  questionTitle.textContent = currentQuestion.title
   // clear out any old question choices
-
+  choicesEl.innerHTML = "";
+  console.log(questionsEl);
   // loop over choices
-
+  for (let i = 0; i< currentQuestion.choices.length; i++) {
+    var choice = currentQuestion.choices[i]
     // create new button for each choice
-
+    var choiceBtn = document.createElement("div");
+    choiceBtn.textContent = choice;
     // attach click event listener to each choice
+    choiceBtn.addEventListener('click', questionClick)
+    console.log(choice)
 
     // display on the page
 }
@@ -74,6 +81,7 @@ function questionClick() {
 
 function quizEnd() {
   // stop timer
+  clearInterval(timerId)
 
   // show end screen
 
@@ -84,9 +92,13 @@ function quizEnd() {
 
 function clockTick() {
   // update time
-  time -= 1;
+  time --;
+  timerEl.textContent = time;
 
   // check if user ran out of time
+  if (time <= 0) {
+    quizEnd();
+  }
 
 }
 
