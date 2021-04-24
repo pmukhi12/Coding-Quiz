@@ -36,13 +36,10 @@ function startQuiz() {
 }
 
 function getQuestion() {
-  var questionsEl = document.getElementById("questions");
-  var questionTitle = questionsEl.getElementsByTagName("h2")
-  var choice = document.getElementsByTagName("choices")
+  var questionTitle = document.getElementById("question-title")
+  var choiceDiv = document.getElementById("choices")
   // get current question object from array
   var currentQuestion = questions[currentQuestionIndex];
-  var questionTitle = questionsEl.getElementsByTagName("h2");
-
   // update title with current question
   questionTitle.textContent = currentQuestion.title;
   // clear out any old question choices
@@ -53,13 +50,16 @@ function getQuestion() {
     var choice = currentQuestion.choices[i]
     // create new button for each choice
     var choiceBtn = document.createElement("div");
+    choiceBtn.setAttribute('data-answer', choice)
     choiceBtn.textContent = choice;
     // attach click event listener to each choice
-    choiceBtn.addEventListener('click', questionClick)
+    choiceBtn.onclick = questionClick;
     console.log(choice)
 
-    // display on the page
-}
+   // display on the page
+   choiceDiv.append(choiceBtn)
+
+} }
 
 function questionClick() {
   // check if user guessed wrong
@@ -71,7 +71,7 @@ function questionClick() {
       time -= 5
     }
     // display new time on page
-    ✅
+    
     // play "wrong" sound effect
     sfxWrong.play();
     userInforEl.textContent = "Sorry, Wrong answer please try again!"
@@ -89,7 +89,7 @@ function questionClick() {
     }
     setTimeout(hideUserInfo, 5000);
     // move to next question
-    
+
     
     // check if we've run out of questions
   } 
