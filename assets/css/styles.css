@@ -86,3 +86,8 @@ li:nth-child(odd) {
   top: 10px;
   right: 10px;
 }
+
+#user-info {
+  display: none;
+  background: yellow;
+}

@@ -11,6 +11,7 @@ var submitBtn = document.getElementById("submit");
 var startBtn = document.getElementById("start");
 var initialsEl = document.getElementById("initials");
 var feedbackEl = document.getElementById("feedback");
+var userInforEl = document.getElementById("user-info");
 
 // sound effects
 var sfxRight = new Audio("assets/sfx/correct.wav");
@@ -35,12 +36,15 @@ function startQuiz() {
 }
 
 function getQuestion() {
-  // get current question object from array
-  var currentQuestion = questions[currentQuestionIndex]
+  var questionsEl = document.getElementById("questions");
   var questionTitle = questionsEl.getElementsByTagName("h2")
+  var choice = document.getElementsByTagName("choices")
+  // get current question object from array
+  var currentQuestion = questions[currentQuestionIndex];
+  var questionTitle = questionsEl.getElementsByTagName("h2");
 
   // update title with current question
-  questionTitle.textContent = currentQuestion.title
+  questionTitle.textContent = currentQuestion.title;
   // clear out any old question choices
   choicesEl.innerHTML = "";
   console.log(questionsEl);
@@ -60,22 +64,28 @@ function getQuestion() {
 function questionClick() {
   // check if user guessed wrong
     // penalize time
-
+    if (this.dataset.answer !== questions[currentQuestionIndex].answer) {
+      time -= 5
+    }
     // display new time on page
-
+    ✅
     // play "wrong" sound effect
-
-  // else 
+    sfxWrong.play();
+  // else
+  else {
     // play "right" sound effect
-
-
-  // flash right/wrong feedback on page for half a second
-
-  // move to next question
-
-  // check if we've run out of questions
+    sfxRight.play();
+    
+    // flash right/wrong feedback on page for half a second
+    userInforEl.textContent = "Sorry, Wrong answer please try again!"
+    userInforEl.style.display = "block"
+    
+    // move to next question
+    
+    // check if we've run out of questions
+  } 
     // quizEnd
-  // else 
+    // else 
     // getQuestion
 }
 
