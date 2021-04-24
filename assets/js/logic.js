@@ -63,6 +63,9 @@ function getQuestion() {
 
 function questionClick() {
   // check if user guessed wrong
+  var isCorrect = this.dataset.answer === questions[currentQuestionIndex].answer;
+  if (!isCorrect) {
+
     // penalize time
     if (this.dataset.answer !== questions[currentQuestionIndex].answer) {
       time -= 5
@@ -71,16 +74,22 @@ function questionClick() {
     ✅
     // play "wrong" sound effect
     sfxWrong.play();
+    userInforEl.textContent = "Sorry, Wrong answer please try again!"
+  }
   // else
   else {
     // play "right" sound effect
     sfxRight.play();
     
     // flash right/wrong feedback on page for half a second
-    userInforEl.textContent = "Sorry, Wrong answer please try again!"
-    userInforEl.style.display = "block"
-    
+    userInforEl.classList.add('show-info');
+    // show user info
+    function hideUserInfo() {
+      userInforEl.textcontent = "correct!";
+    }
+    setTimeout(hideUserInfo, 5000);
     // move to next question
+    
     
     // check if we've run out of questions
   } 
