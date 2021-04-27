@@ -6,6 +6,7 @@ var timerId;
 // variables to reference DOM elements
 var questionsEl = document.getElementById("questions");
 var timerEl = document.getElementById("time");
+var timerDiv = document.getElementsByClassName("timer");
 var choicesEl = document.getElementById("choices");
 var submitBtn = document.getElementById("submit");
 var startBtn = document.getElementById("start");
@@ -74,28 +75,36 @@ function questionClick() {
     
     // play "wrong" sound effect
     sfxWrong.play();
-    userInforEl.textContent = "Sorry, Wrong answer please try again!"
+    alert('Wrong Answer')
+    // userInforEl.textContent = "Sorry, Wrong answer please try again!"
   }
   // else
   else {
     // play "right" sound effect
     sfxRight.play();
-    
+    alert('Correct Answer')
     // flash right/wrong feedback on page for half a second
-    userInforEl.classList.add('show-info');
+    setInterval(feedbackEl.removeAttribute('class'))
+    // userInforEl.classList.add('show-info');
     // show user info
-    function hideUserInfo() {
-      userInforEl.textcontent = "correct!";
+    // function hideUserInfo() {
+      // userInforEl.textcontent = "correct!";
     }
-    setTimeout(hideUserInfo, 5000);
+    // setTimeout(hideUserInfo, 5000);
     // move to next question
-
-    
+    currentQuestionIndex++;
     // check if we've run out of questions
-  } 
-    // quizEnd
+    if (currentQuestionIndex === questions.length) {
+      // quizEnd
+      quizEnd()
+    }
     // else 
-    // getQuestion
+    else {
+      // getQuestion
+      getQuestion()
+
+    }
+
 }
 
 function quizEnd() {
@@ -103,10 +112,14 @@ function quizEnd() {
   clearInterval(timerId)
 
   // show end screen
-
+  var endScreenEl = document.getElementById('end-screen');
+  endScreenEl.removeAttribute('class');
   // show final score
-
-  // hide questions section
+  var finalScoreEl = document.getElementById('final-score');
+  finalScoreEl.textContent = time;
+  // hide questions and timer section
+  questionsEl.setAttribute('class', 'hide')
+  timerDiv.classList.add('hide')
 }
 
 function clockTick() {
@@ -123,8 +136,20 @@ function clockTick() {
 
 function saveHighscore() {
   // get value of input box
+  var initials = initialsEl.value.trim();
+  console.log(initials) 
 
   // make sure value wasn't empty
+  if (initials !== "") {
+    var highScores = JSON.parse(localStorage.getItem('highScores')) || []
+    console.log(highScores)
+    var scoreData = {
+      score: time, 
+      initials: initials
+    }
+    highScores.push(scoreData)
+    localStorage.setItem('highScores', JSON.stringify(highScores))
+  }
     // get saved scores from localstorage, or if not any, set to empty array
 
     // format new score object for current user
